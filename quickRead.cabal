@@ -41,7 +41,7 @@ common common
 
   ghc-options:
     -Wall -Wcompat -Wincomplete-record-updates
-    -Wincomplete-uni-patterns -Wredundant-constraints
+    -Wincomplete-uni-patterns -Wredundant-constraints -haddock
 
 library
   import:           common
@@ -76,6 +76,6 @@ executable quickRead
     , base       ^>=4.14.3.0
     , quickRead
 
-  ghc-options:      -threaded
+  ghc-options:      -threaded 
   hs-source-dirs:   app
   default-language: Haskell2010

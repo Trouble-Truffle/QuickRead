@@ -7,6 +7,7 @@ import Control.Monad.IO.Class
 import qualified Data.Sequence                 as S
 import           Graphics.Vty
 import           QuickRead.Types               as QT
+import Data.Tape as T
 
 eventHandler :: Reader -> BrickEvent Name Tick -> EventM Name (Next Reader)
 eventHandler game (VtyEvent (EvKey (KChar 'q') [])) = halt game
