@@ -10,25 +10,17 @@ import Data.Tape
 data Tick = Tick
 type Name = ()
 
-data Options = Options {
-    _speed :: Float
-  , _conf :: FilePath
-  }
-makeLenses ''Options
-
 data Reader = Reader {
     _fileQueue :: [FilePath] 
   , _textTape :: Maybe (Tape String)
   , _delay :: TVar Int
+  , _wpm :: Double
 
   , _paused :: Bool
 
   , _progress :: Int -- In number of words
   -- TODO define save file
   , _themeIndex :: Int
-
-  , _appOpts :: Options
-
   }
 makeLenses ''Reader
 
