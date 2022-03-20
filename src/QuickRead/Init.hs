@@ -7,7 +7,7 @@ import Data.Tape
 initialize :: TVar Int -> (Options, [String]) -> Maybe (Tape String) -> Reader
 initialize tvar (opts, fileNames) texts = 
   Reader {
-    _files = fileNames
+    _fileQueue = fileNames
   , _textTape = texts
 
   , _delay = tvar

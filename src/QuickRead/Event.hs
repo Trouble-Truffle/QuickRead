@@ -23,11 +23,11 @@ step reader = case reader ^. textTape of
   Just x  -> return $ reader & textTape .~ moveR x
 
   Nothing -> do
-    (name, names) <- MaybeT $ return $ uncons (reader ^. files)
+    (name, names) <- MaybeT $ return $ uncons (reader ^. fileQueue)
     file <- MaybeT $ toTape . words =<< readFile name
 
     return $ reader & textTape ?~ file 
-                    & files .~ names
+                    & fileQueue .~ names
 
    where
     toTape [] = return Nothing

@@ -17,7 +17,7 @@ data Options = Options {
 makeLenses ''Options
 
 data Reader = Reader {
-    _files :: [FilePath] 
+    _fileQueue :: [FilePath] 
   , _textTape :: Maybe (Tape String)
   , _delay :: TVar Int
 
