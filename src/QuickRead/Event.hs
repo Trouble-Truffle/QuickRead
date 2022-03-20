@@ -18,7 +18,7 @@ step reader = case reader ^. textTape of
   Just x  -> return $ reader & textTape .~ moveR x
 
   Nothing -> do
-    (name, names) <- maybe A.empty return x
+    (name, names) <- maybe mempty return x
     file <- toTape . words =<< readFile name
 
     return $ reader & textTape ?~ file 

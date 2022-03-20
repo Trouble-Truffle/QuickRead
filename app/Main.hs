@@ -34,6 +34,7 @@ main = do
 
   chan <- BC.newBChan 10
   tvar <- TV.newTVarIO 100000
+  --tvar <- TV.newTVarIO 10
 
 -- TODO: temporary for faster debugging
   filepath <- (++"/.local/src/quickRead/LoremIpsum.txt") <$> getHomeDirectory

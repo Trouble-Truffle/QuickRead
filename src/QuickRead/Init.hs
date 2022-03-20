@@ -14,5 +14,7 @@ initialize tvar (opts, fileNames) texts =
   , _paused = False
   , _progress = 0
 
+  , _themeIndex = 0
+
   , _appOpts = opts
   }

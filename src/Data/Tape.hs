@@ -57,3 +57,5 @@ tape !? i
 take :: Int -> Tape a -> Tape a
 take 0 (Tape _ c _)  = Tape S.empty c S.empty 
 take i (Tape ls c rs) = Tape (S.reverse $ S.take i $ S.reverse ls) c (S.take i rs)
+
+sampleTape = Tape [1..10] 11 [12..20]

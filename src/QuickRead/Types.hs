@@ -25,7 +25,7 @@ data Reader = Reader {
 
   , _progress :: Int -- In number of words
   -- TODO define save file
-  --, _theme :: AttrMap
+  , _themeIndex :: Int
 
   , _appOpts :: Options
 
