@@ -2,7 +2,8 @@
 module Data.Tape where
 
 import Data.Sequence as S
-import Control.Lens 
+import qualified Control.Lens as L
+import Control.Lens ((^.))
 
 data Tape a = Tape {
     _viewL :: Seq a
@@ -10,24 +11,20 @@ data Tape a = Tape {
   , _viewR :: Seq a
 } deriving (Show)
 
-makeLenses ''Tape
+L.makeLenses ''Tape
 
 instance Functor Tape where
   fmap f (Tape ls c rs) = Tape (fmap f ls) (f c) (fmap f rs)
 
 -- | 1 2 [3] 4 -> 1 [2] 3 4
 moveL, moveR :: Tape a -> Maybe (Tape a)
-moveL (Tape ls c rs) = do
-    (l S.:< ls' ) <- lSplit
-    return $ Tape ls' l (c S.<| rs)
-  where 
-    lSplit = (\x -> case x of; EmptyL -> Nothing; _ -> Just x ) $ viewl ls
+moveL (Tape ls c rs) = case viewr ls of
+            EmptyR -> Nothing
+            (ls' :> l) -> Just $ Tape ls' l (c <| rs)
 
-moveR (Tape ls c rs) = do
-    (rs' S.:> r) <- rSplit
-    return $ Tape (ls S.|> c)  r rs'
-  where 
-    rSplit = (\x -> case x of; EmptyR -> Nothing; _ -> Just x ) $ viewr rs
+moveR (Tape ls c rs) = case viewl rs of
+            EmptyL -> Nothing
+            (r :< rs') -> Just $ Tape (ls |> c) r rs'
 
 
 -- | Index left view of tape, indexing works as though sequence is flipped i.e [3,2,1,0]
