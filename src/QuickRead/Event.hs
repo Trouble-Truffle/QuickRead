@@ -1,32 +1,39 @@
+{-# LANGUAGE LambdaCase #-}
 module QuickRead.Event where
 
 import           Brick
 import           Control.Lens
-import        Control.Applicative as A
-import Control.Monad.IO.Class
+import           Control.Monad.IO.Class
+import          Control.Monad.Trans.Maybe
 import qualified Data.Sequence                 as S
 import           Graphics.Vty
 import           QuickRead.Types               as QT
 import Data.Tape as T
 
 eventHandler :: Reader -> BrickEvent Name Tick -> EventM Name (Next Reader)
-eventHandler game (VtyEvent (EvKey (KChar 'q') [])) = halt game
-eventHandler game _  =  liftIO (step game) >>= continue 
 
-step :: Reader -> IO Reader
+eventHandler game (AppEvent Tick)  =  liftIO (runMaybeT $ step game) >>= 
+  (\case; Nothing -> exit game; Just x -> continue x)
+
+eventHandler game (VtyEvent (EvKey (KChar 'q') [])) = halt game
+eventHandler game _ = continue game
+
+step :: Reader -> MaybeT IO Reader
 step reader = case reader ^. textTape of
   Just x  -> return $ reader & textTape .~ moveR x
 
   Nothing -> do
-    (name, names) <- maybe mempty return x
-    file <- toTape . words =<< readFile name
+    (name, names) <- MaybeT $ return $ uncons (reader ^. files)
+    file <- MaybeT $ toTape . words =<< readFile name
 
     return $ reader & textTape ?~ file 
                     & files .~ names
 
    where
-    toTape [] = A.empty
-    toTape [_] = A.empty
-    toTape (y:ys) = return $ Tape S.empty y (S.fromList ys)
+    toTape [] = return Nothing
+    toTape [_] = return Nothing
+    toTape (y:ys) = return $ Just $ Tape S.empty y (S.fromList ys)
 
-    x = uncons (reader ^. files)
+-- TODO: create exit messages
+exit :: Reader -> EventM Name (Next Reader)
+exit = error "TODO: create exit message at Event.hs"

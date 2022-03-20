@@ -33,7 +33,7 @@ main :: IO ()
 main = do
 
   chan <- BC.newBChan 10
-  tvar <- TV.newTVarIO 300000
+  tvar <- TV.newTVarIO 1
   --tvar <- TV.newTVarIO 10
 
 -- TODO: temporary for faster debugging
