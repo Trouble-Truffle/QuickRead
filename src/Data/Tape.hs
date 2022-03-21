@@ -1,14 +1,15 @@
 {-# LANGUAGE TemplateHaskell, OverloadedLists #-}
 module Data.Tape where
 
-import Data.Sequence as S
+import qualified Data.Sequence as S
+import Data.Sequence (ViewL(..), ViewR(..), (<|), (|>))
 import qualified Control.Lens as L
 import Control.Lens ((^.))
 
 data Tape a = Tape {
-    _viewL :: Seq a
+    _viewL :: S.Seq a
   , _focus :: a
-  , _viewR :: Seq a
+  , _viewR :: S.Seq a
 } deriving (Show)
 
 L.makeLenses ''Tape
@@ -18,13 +19,22 @@ instance Functor Tape where
 
 -- | 1 2 [3] 4 -> 1 [2] 3 4
 moveL, moveR :: Tape a -> Maybe (Tape a)
-moveL (Tape ls c rs) = case viewr ls of
-            EmptyR -> Nothing
+moveL (Tape ls c rs) = case S.viewr ls of
+            S.EmptyR -> Nothing
             (ls' :> l) -> Just $ Tape ls' l (c <| rs)
 
-moveR (Tape ls c rs) = case viewl rs of
-            EmptyL -> Nothing
+moveR (Tape ls c rs) = case S.viewl rs of
+            S.EmptyL -> Nothing
             (r :< rs') -> Just $ Tape (ls |> c) r rs'
+
+
+-- Keep using move(L|R) 
+nMoveL, nMoveR :: Tape a -> Int -> Maybe (Tape a)
+nMoveL tape 0 = return tape
+nMoveL tape n = moveL tape >>= (`nMoveL` (n - 1))
+
+nMoveR tape 0 = return tape
+nMoveR tape n = moveR tape >>= (`nMoveR` (n - 1))
 
 
 -- | Index left view of tape, indexing works as though sequence is flipped i.e [3,2,1,0]
