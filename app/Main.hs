@@ -50,6 +50,3 @@ main = do
 
   B.customMain vty mVty (Just chan) app (QI.initialize tvar filenames Nothing)
     >>= saveState
-
-
-
