@@ -40,6 +40,7 @@ speedHandler :: Reader -> (Double -> Double -> Double) -> Double ->  EventM Name
 speedHandler reader (+/-) incrValue = do
   let newWpm = roundTo 1 $ clamp 0.001 9999999 $ (reader^.wpm) +/- incrValue
 
+  liftIO $ atomically $ writeTVar (reader^.delayStop) True
   liftIO $ atomically $ writeTVar (reader^.delay) $ wpmToDur newWpm
   continue $ reader & wpm .~ newWpm
 

@@ -13,7 +13,10 @@ type Name = ()
 data Reader = Reader {
     _fileQueue :: [FilePath] 
   , _textTape :: Maybe (Tape String)
+
   , _delay :: TVar Int
+  , _delayStop :: TVar Bool
+
   , _wpm :: Double
 
   , _paused :: Bool
