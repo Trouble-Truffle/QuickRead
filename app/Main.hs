@@ -62,5 +62,7 @@ main = do
   let mVty = V.mkVty V.defaultConfig
   vty <- mVty
 
-  B.customMain vty mVty (Just chan) app (QI.initialize delay change filenames Nothing)
+  B.customMain vty mVty (Just chan) app (
+    QI.initialize 
+      delay change filenames Nothing)
     >>= saveState

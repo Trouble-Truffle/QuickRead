@@ -17,7 +17,7 @@ initialize tvar unfreeze fileNames texts =
   , _delay = tvar
   , _delayStop = unfreeze
   , _wpm = defaultWpm
-  , _paused = False
+  , _paused = True
   , _progress = 0
 
   , _themeIndex = 0
