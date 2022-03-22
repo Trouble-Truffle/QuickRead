@@ -2,7 +2,7 @@
 module Data.Tape where
 
 import qualified Data.Sequence as S
-import Data.Sequence (ViewL(..), ViewR(..), (<|), (|>))
+import Data.Sequence (ViewL(..), ViewR(..), (<|), (|>), (><))
 import qualified Control.Lens as L
 import Control.Lens ((^.))
 
@@ -28,7 +28,7 @@ moveR (Tape ls c rs) = case S.viewl rs of
             (r :< rs') -> Just $ Tape (ls |> c) r rs'
 
 
--- Keep using move(L|R) 
+-- Keep using move(L|R) for N times unless it fails
 nMoveL, nMoveR :: Tape a -> Int -> Maybe (Tape a)
 nMoveL tape 0 = return tape
 nMoveL tape n = moveL tape >>= (`nMoveL` (n - 1))
@@ -36,6 +36,14 @@ nMoveL tape n = moveL tape >>= (`nMoveL` (n - 1))
 nMoveR tape 0 = return tape
 nMoveR tape n = moveR tape >>= (`nMoveR` (n - 1))
 
+-- | Move all values of a tape all on one direction
+maxMoveL, maxMoveR :: Tape a -> Tape a
+maxMoveL tape@(Tape ls c rs) = case S.viewr rs of
+  S.EmptyR -> tape
+  rs' :> r -> Tape ((ls |> c) >< rs') r S.empty
+maxMoveR tape@(Tape ls c rs) = case S.viewl ls of
+  S.EmptyL -> tape
+  l :< ls' -> Tape S.empty l $ (ls' |> c) >< rs
 
 -- | Index left view of tape, indexing works as though sequence is flipped i.e [3,2,1,0]
 (<!) :: Tape a -> Int -> Maybe a
