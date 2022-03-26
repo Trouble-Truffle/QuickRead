@@ -17,6 +17,10 @@ L.makeLenses ''Tape
 instance Functor Tape where
   fmap f (Tape ls c rs) = Tape (fmap f ls) (f c) (fmap f rs)
 
+instance Foldable Tape where
+  foldr f x (Tape xl xm xr) = foldr f x $ (xl |> xm) >< xr
+
+
 -- | 1 2 [3] 4 -> 1 [2] 3 4
 moveL, moveR :: Tape a -> Maybe (Tape a)
 moveL (Tape ls c rs) = case S.viewr ls of
@@ -73,5 +77,11 @@ take :: Int -> Tape a -> Tape a
 take 0 (Tape _ c _)  = Tape S.empty c S.empty 
 take i (Tape ls c rs) = Tape (S.reverse $ S.take i $ S.reverse ls) c (S.take i rs)
 
+fromList :: [a] -> Maybe (Tape a)
+fromList [] = Nothing
+fromList [_] = Nothing
+fromList (x:xs) = Just $ Tape S.empty x $ S.fromList xs
+
 sampleTape :: Tape Int
 sampleTape = Tape [1..10] 11 [12..20]
+
