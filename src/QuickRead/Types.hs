@@ -11,7 +11,7 @@ data Tick = Tick
 type Name = ()
 
 data Reader = Reader {
-    _fileQueue :: [FilePath] 
+    _fileQueue :: Maybe (Tape FilePath)
   , _textTape :: Maybe (Tape String)
 
   , _delay :: TVar Int

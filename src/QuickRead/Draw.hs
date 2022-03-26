@@ -19,6 +19,7 @@ drawUI reader =
       <=> textViewport
       <=> curWpm
       <=> speed
+      <=> (if reader^.paused then B.str "Paused" else B.emptyWidget)
   ]
  where
   textViewport = drawTape (reader ^. textTape)

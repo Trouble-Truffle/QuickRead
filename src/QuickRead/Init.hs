@@ -1,25 +1,20 @@
 module QuickRead.Init where
 
-import Control.Concurrent.STM
+import Brick
+import Control.Lens
+
 import QuickRead.Types
+import QuickRead.Util
 import Data.Tape
+import Control.Monad.IO.Class
+import Control.Monad.Trans.Maybe
 
-defaultWpm :: Double
-defaultWpm = 100
+startEvent :: Reader -> EventM Name Reader
+startEvent reader = do
+  case reader^.fileQueue of
+    Nothing -> startEvent reader
+    Just x -> liftIO $ maybe (error "TODO: Error on empty file") (readFunc reader) =<< runMaybeT (safeReadFile $ x^.focus)
+  where
+    readFunc reader' str' = return $ reader' & textTape .~ fromList (words str')
 
 
-initialize :: TVar Int -> TVar Bool -> [String] -> Maybe (Tape String) -> Reader
-initialize tvar unfreeze fileNames texts = 
-  Reader {
-    _fileQueue = fileNames
-  , _textTape = texts
-
-  , _delay = tvar
-  , _delayStop = unfreeze
-  , _wpm = defaultWpm
-  , _paused = True
-  , _progress = 0
-
-  , _themeIndex = 0
-
-  }
