@@ -23,13 +23,14 @@ extra-source-files: CHANGELOG.md
 
 common common
   build-depends:
-    , base          ^>=4.14.3.0
+    , base              ^>=4.14.3.0
     , brick
-    , containers    >=0.6.0.1
+    , containers        >=0.6.0.1
     , directory
     , lens
     , stm
-    , Stream        >=0.4.7
+    , Stream            >=0.4.7
+    , template-haskell  >=2.16
     , transformers
     , vty
 
@@ -47,7 +48,7 @@ library
   import:           common
 
   -- Modules included in this library but not exported.
-  other-modules:
+  exposed-modules:
     Data.Tape
     QuickRead.Draw
     QuickRead.Event

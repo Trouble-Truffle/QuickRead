@@ -1,3 +1,4 @@
+{-# LANGUAGE TemplateHaskell #-}
 module Main where
 
 import qualified Brick                         as B
@@ -16,9 +17,7 @@ import qualified QuickRead.Init                as QI
 import qualified QuickRead.Theme               as QTH
 import qualified QuickRead.Types               as QT
 import qualified QuickRead.Util                as QU
-
 import qualified Data.Tape as T
-
 
 app :: B.App QT.Reader QT.Tick QT.Name
 app = B.App { B.appDraw         = QD.drawUI
