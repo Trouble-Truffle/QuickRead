@@ -59,8 +59,9 @@ main = do
 -- TODO: temporary for faster debugging
   filepath  <- (++ "/.local/src/quickRead/LoremIpsum.txt") <$> getHomeDirectory
   filepath2 <- (++ "/.local/src/quickRead/APickle.txt") <$> getHomeDirectory
+  filepath3 <- (++ "/.local/src/quickRead/large.txt") <$> getHomeDirectory
 
-  let filenames = [filepath, filepath2]
+  let filenames = [filepath, filepath2, filepath3]
 
   let mVty = V.mkVty V.defaultConfig
   vty    <- mVty
