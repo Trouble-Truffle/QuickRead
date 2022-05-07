@@ -79,7 +79,7 @@ take i (Tape ls c rs) = Tape (S.reverse $ S.take i $ S.reverse ls) c (S.take i r
 
 fromList :: [a] -> Maybe (Tape a)
 fromList [] = Nothing
-fromList [_] = Nothing
+fromList [x] = Just $ Tape S.empty x S.empty
 fromList (x:xs) = Just $ Tape S.empty x $ S.fromList xs
 
 sampleTape :: Tape Int

@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Main where
 
 import qualified Brick                         as B
@@ -61,7 +60,7 @@ main = do
   filepath2 <- (++ "/.local/src/quickRead/APickle.txt") <$> getHomeDirectory
   filepath3 <- (++ "/.local/src/quickRead/large.txt") <$> getHomeDirectory
 
-  let filenames = [filepath, filepath2, filepath3]
+  let filenames = [filepath,filepath3]
 
   let mVty = V.mkVty V.defaultConfig
   vty    <- mVty
@@ -73,7 +72,8 @@ main = do
     , QT._delayStop = change
     , QT._wpm = 120
     , QT._paused = True
-    , QT._progress = 0
+    , QT._finished = False
+    , QT._lastErr = QT.None
     , QT._themeIndex = 0
     }
 

@@ -25,6 +25,7 @@ drawUI reader =
       <=> speed
       <=> drawProgress reader
       <=> (if reader ^. paused then B.str "Paused" else B.emptyWidget)
+      <=> BB.border (B.str $ show $ reader ^. lastErr)
   ]
  where
   textViewport = drawConts (reader ^. textTape)

@@ -10,6 +10,15 @@ import Data.Tape
 data Tick = Tick
 type Name = ()
 
+data ReaderError = EmptyFile 
+                 | EmptyQueue 
+                 | LBorder
+                 | RBorder
+                 | IOErr IOError
+                 | Debug String
+                  | None
+                 deriving (Show)
+
 data Reader = Reader {
     _fileQueue :: Maybe (Tape FilePath)
   , _textTape :: Maybe (Tape String)
@@ -21,10 +30,13 @@ data Reader = Reader {
 
   , _paused :: Bool
 
-  , _progress :: Int -- In number of words
+  , _finished :: Bool -- In number of words
   -- TODO define save file
   , _themeIndex :: Int
+
+  , _lastErr :: ReaderError
   }
 makeLenses ''Reader
 
-
+type ErrorState = Reader
+-- ^ A type alias for Left Eithers
