@@ -5,7 +5,7 @@ import qualified Brick.BChan                   as BC
 import qualified Control.Concurrent.STM.TVar   as TV
 import qualified Graphics.Vty                  as V
 
-import Control.Lens ((^.))
+import           Control.Lens                   ( (^.) )
 
 import           Control.Concurrent
 import           Control.Monad
@@ -70,17 +70,17 @@ main = do
              }
     )
 
-  let initialState = QT.Reader
-        { QT._textTape   = Nothing
-        , QT._fileQueue  = T.fromList files
-        , QT._delay      = delay
-        , QT._delayStop  = change
-        , QT._wpm        = opts ^. QA.wpm
-        , QT._paused     = True
-        , QT._finished   = False
-        , QT._lastErr    = QT.None
-        , QT._themeIndex = 0
-        }
+  let initialState = QT.Reader { QT._textTape     = Nothing
+                               , QT._fileQueue    = T.fromList files
+                               , QT._manualAction = False
+                               , QT._delay        = delay
+                               , QT._delayStop    = change
+                               , QT._wpm          = opts ^. QA.wpm
+                               , QT._paused       = True
+                               , QT._finished     = False
+                               , QT._lastErr      = QT.None
+                               , QT._themeIndex   = 0
+                               }
 
   let mVty = V.mkVty V.defaultConfig
   vty <- mVty

@@ -9,6 +9,7 @@ import Data.Tape
 
 data Tick = Tick
 type Name = ()
+data Direction = L | R
 
 data ReaderError = EmptyFile 
                  | EmptyQueue 
@@ -16,12 +17,13 @@ data ReaderError = EmptyFile
                  | RBorder
                  | IOErr IOError
                  | Debug String
-                  | None
+                 | None
                  deriving (Show)
 
 data Reader = Reader {
     _fileQueue :: Maybe (Tape FilePath)
   , _textTape :: Maybe (Tape String)
+  , _manualAction :: Bool
 
   , _delay :: TVar Int
   , _delayStop :: TVar Bool
@@ -31,10 +33,9 @@ data Reader = Reader {
   , _paused :: Bool
 
   , _finished :: Bool -- In number of words
+  , _lastErr :: ReaderError
   -- TODO define save file
   , _themeIndex :: Int
-
-  , _lastErr :: ReaderError
   }
 makeLenses ''Reader
 

@@ -1,6 +1,5 @@
 module QuickRead.Util where
 
-import           Control.Monad.Trans.Except
 import           System.IO.Error
 
 -- | Converts a wpm value to the correct amount of delay for `threadDelay`
@@ -18,8 +17,8 @@ applyWhen True  f = f
 applyWhen False _ = id
 
 -- | Returns an ExceptT type instead of exception on failure
-safeReadFile :: FilePath -> ExceptT IOError IO String
-safeReadFile = ExceptT . tryIOError . readFile
+safeReadFile :: FilePath -> IO (Either IOError String)
+safeReadFile = tryIOError . readFile
 
 safeRead :: Read a => String -> Maybe a
 safeRead x = case reads x of

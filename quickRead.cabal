@@ -54,7 +54,9 @@ library
     QuickRead.Draw
     QuickRead.Event
     QuickRead.Init
-    QuickRead.Logic
+    QuickRead.Scroll
+    QuickRead.Scroll.Text
+    QuickRead.Scroll.File
     QuickRead.Theme
     QuickRead.Types
     QuickRead.Util
