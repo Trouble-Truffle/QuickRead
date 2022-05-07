@@ -1,3 +1,4 @@
+-- | Controls state changes (scrolling, file switching) and handles any errors caused by such
 module QuickRead.Logic where
 
 import           QuickRead.Types

@@ -17,6 +17,11 @@ applyWhen :: Bool -> (a -> a) -> a -> a
 applyWhen True  f = f
 applyWhen False _ = id
 
--- | Returns a maybe type instead of exception on failure
+-- | Returns an ExceptT type instead of exception on failure
 safeReadFile :: FilePath -> ExceptT IOError IO String
 safeReadFile = ExceptT . tryIOError . readFile
+
+safeRead :: Read a => String -> Maybe a
+safeRead x = case reads x of
+  []           -> Nothing
+  ((n, _) : _) -> Just n

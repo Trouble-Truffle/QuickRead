@@ -50,6 +50,7 @@ library
   -- Modules included in this library but not exported.
   exposed-modules:
     Data.Tape
+    QuickRead.Arg
     QuickRead.Draw
     QuickRead.Event
     QuickRead.Init
