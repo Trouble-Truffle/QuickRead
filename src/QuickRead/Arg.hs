@@ -19,8 +19,8 @@ options defaultOpts =
   [ Option
     ['c']
     ["config"]
-    (OptArg
-      (\input opts -> opts & conf .~ fromMaybe (defaultOpts ^. conf) input)
+    (ReqArg
+      (\input opts -> opts & conf .~  input)
       "FILEPATH"
     )
 
@@ -34,8 +34,8 @@ options defaultOpts =
   , Option
     []
     ["cache"]
-    (OptArg
-      (\input opts -> opts & conf .~ fromMaybe (defaultOpts ^. cache) input)
+    (ReqArg
+      (\input opts -> opts & conf .~ input)
       "FILEPATH"
     )
 
@@ -47,7 +47,7 @@ options defaultOpts =
   , Option
     ['w']
     ["wpm"]
-    (OptArg (\input opts -> opts & wpm .~ fromMaybe (defaultOpts ^. wpm) (input >>= safeRead))
+    (ReqArg (\input opts -> opts & wpm .~ fromMaybe (error "UserError: Invalid float in WPM argument") (safeRead input))
             "FLOAT"
     )
     "Speed in WPM"
