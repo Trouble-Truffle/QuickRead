@@ -18,8 +18,8 @@ textStep reader' lr = if reader' ^. paused && not (reader' ^. manualAction)
   else case spin reader' lr of
     (reader, QST.Normal) -> continue $ reader & manualAction .~ False
     (reader, QST.Empty ) -> error "TODO: handle empty files"
-    (reader, QST.SOF   ) -> error "TODO: handle file ends"
-    (reader, QST.EOF   ) -> error "TODO: handle file starts"
+    (reader, QST.SOF   ) -> error "TODO: handle file starts"
+    (reader, QST.EOF   ) -> error "TODO: handle file ends"
 
 fileQueueStep :: Reader -> QT.Direction -> EventM Name (Next Reader)
 fileQueueStep reader' lr = liftIO ( advanceQueue reader' lr) >>= \case
@@ -27,4 +27,4 @@ fileQueueStep reader' lr = liftIO ( advanceQueue reader' lr) >>= \case
   (reader, QSF.Empty        ) -> error "TODO: Handle empty queue"
   (reader, QSF.SOQ          ) -> error "TODO: Handle start of queue"
   (reader, QSF.EOQ          ) -> error "TODO: Handle end of queue"
-  (reader, QSF.ReadError err) -> error "TODO: Handle end of queue"
+  (reader, QSF.ReadError err) -> error "TODO: Handle read errors"

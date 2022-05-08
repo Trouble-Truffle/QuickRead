@@ -4,6 +4,7 @@ module QuickRead.Scroll.File where
 import           Control.Lens                   ( (&)
                                                 , (.~)
                                                 , (^.)
+                                                , (?~)
                                                 )
 
 import           Data.Bifunctor
@@ -20,7 +21,7 @@ advanceQueue reader direction = case reader ^. fileQueue of
   Just queue -> case move queue of
     Nothing -> return (reader, queueEndError)
     Just queue' ->
-      first (\x -> reader & textTape .~ x) . fileToTape <$> safeReadFile
+      first (\x -> reader & textTape .~ x & fileQueue ?~ queue' ) . fileToTape <$> safeReadFile
         (queue' ^. focus)
 
    where
