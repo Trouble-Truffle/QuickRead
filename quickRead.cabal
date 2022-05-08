@@ -57,6 +57,7 @@ library
     QuickRead.Scroll
     QuickRead.Scroll.Text
     QuickRead.Scroll.File
+    QuickRead.StartMenu.Start
     QuickRead.Theme
     QuickRead.Types
     QuickRead.Util
