@@ -78,7 +78,6 @@ main = do
                                , QT._wpm          = opts ^. QA.wpm
                                , QT._paused       = True
                                , QT._finished     = False
-                               , QT._lastErr      = QT.None
                                , QT._themeIndex   = 0
                                }
 

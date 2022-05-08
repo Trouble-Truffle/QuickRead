@@ -33,7 +33,6 @@ data Reader = Reader {
   , _paused :: Bool
 
   , _finished :: Bool -- In number of words
-  , _lastErr :: ReaderError
   -- TODO define save file
   , _themeIndex :: Int
   }
